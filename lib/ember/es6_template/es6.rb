@@ -1,22 +1,37 @@
 module Ember
   module ES6Template
-    class ES6 < ::Tilt::Template
-      def self.default_mime_type
-        'application/javascript'
+    class ES6
+      def self.instance
+        @instance ||= new
       end
 
-      def prepare; end
+      def self.call(input)
+        instance.call(input)
+      end
 
-      def evaluate(scope, locals, &block)
-        env = scope.environment
+      def call(input)
+        data = input[:data]
 
-        result = Babel::Transpiler.transform(data,
-          'sourceRoot' => env.root,
-          'moduleRoot' => '',
-          'filename' => scope.logical_path
-        )
+        result = input[:cache].fetch(cache_key + [data]) do
+          Babel::Transpiler.transform(data,
+            'sourceRoot' => input[:load_path],
+            'moduleRoot' => '',
+            'filename' => input[:filename]
+          )
+        end
 
         result['code']
+      end
+
+      private
+
+      def cache_key
+        [
+          self.class.name,
+          VERSION,
+          Babel::Transpiler.version,
+          Babel::Transpiler.source_version
+        ]
       end
     end
   end

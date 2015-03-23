@@ -5,8 +5,13 @@ class TestEmberES6Template < Minitest::Test
     @env = Sprockets::Environment.new
     @env.append_path File.expand_path('../fixtures', __FILE__)
 
-    @env.register_engine '.es6', Ember::ES6Template::ES6
-    @env.register_engine '.es6module', Ember::ES6Template::ES6Module
+    if Sprockets::VERSION =~ /^3\./
+      @env.register_engine '.es6', Ember::ES6Template::ES6, mime_type: 'application/javascript'
+      @env.register_engine '.es6module', Ember::ES6Template::ES6Module, mime_type: 'application/javascript'
+    else
+      @env.register_engine '.es6', Ember::ES6Template::ES6
+      @env.register_engine '.es6module', Ember::ES6Template::ES6Module
+    end
   end
 
   def test_that_it_has_a_version_number
