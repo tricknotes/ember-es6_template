@@ -18,7 +18,7 @@ module Ember
             'moduleIds' => true,
             'sourceRoot' => input[:load_path],
             'moduleRoot' => '',
-            'filename' => input[:filename]
+            'filename' => input[:name]
           )
         end
 

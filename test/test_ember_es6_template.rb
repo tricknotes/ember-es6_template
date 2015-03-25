@@ -39,4 +39,21 @@ define("controller", ["exports", "module"], function (exports, module) {
 
     assert { expected == asset.to_s }
   end
+
+  def test_transpile_with_erb
+    asset = @env['env.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+define("env", ["exports", "module"], function (exports, module) {
+  "use strict";
+
+  module.exports = {
+    key: "1024"
+  };
+});
+    JS
+
+    assert { expected == asset.to_s }
+  end
 end
