@@ -13,19 +13,23 @@ module Ember
         data = input[:data]
 
         result = input[:cache].fetch(cache_key + [data]) do
-          Babel::Transpiler.transform(data,
-            'modules' => 'amd',
-            'moduleIds' => true,
-            'sourceRoot' => input[:load_path],
-            'moduleRoot' => '',
-            'filename' => input[:name]
-          )
+          transform(data, input)
         end
 
         result['code']
       end
 
       private
+
+      def transform(data, input)
+        Babel::Transpiler.transform(data,
+          'modules' => 'amd',
+          'moduleIds' => true,
+          'sourceRoot' => input[:load_path],
+          'moduleRoot' => '',
+          'filename' => input[:name]
+        )
+      end
 
       def cache_key
         [

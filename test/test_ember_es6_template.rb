@@ -56,4 +56,39 @@ define("env", ["exports", "module"], function (exports, module) {
 
     assert { expected == asset.to_s.strip }
   end
+
+  def test_transpile_with_coffee_script
+    asset = @env['boot.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+"use strict";
+
+var _interopRequire = function _interopRequire(obj) {
+  return obj && obj.__esModule ? obj["default"] : obj;
+};
+
+var App = _interopRequire(require("application"));
+
+App.create();
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
+
+  def test_transpile_module_syntax_with_coffee_script
+    asset = @env['route.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+define("route", ["exports", "module"], function (exports, module) {
+  "use strict";
+
+  module.exports = Route;
+  ;
+});
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
 end
