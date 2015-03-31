@@ -1,4 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'erb'
+
 require 'ember/es6_template'
 require 'sprockets'
 

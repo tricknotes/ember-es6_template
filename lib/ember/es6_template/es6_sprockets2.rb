@@ -13,7 +13,8 @@ module Ember
         result = Babel::Transpiler.transform(data,
           'sourceRoot' => env.root,
           'moduleRoot' => '',
-          'filename' => scope.logical_path
+          'filename' => scope.logical_path,
+          'blacklist' => ['es6.modules']
         )
 
         result['code']

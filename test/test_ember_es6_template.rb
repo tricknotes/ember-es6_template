@@ -22,7 +22,7 @@ class TestEmberES6Template < Minitest::Test
 "1 + 1 = " + (1 + 1);
     JS
 
-    assert { expected == asset.to_s }
+    assert { expected == asset.to_s.strip }
   end
 
   def test_tranpile_module_syntax
@@ -37,7 +37,7 @@ define("controller", ["exports", "module"], function (exports, module) {
 });
     JS
 
-    assert { expected == asset.to_s }
+    assert { expected == asset.to_s.strip }
   end
 
   def test_transpile_with_erb
@@ -54,6 +54,6 @@ define("env", ["exports", "module"], function (exports, module) {
 });
     JS
 
-    assert { expected == asset.to_s }
+    assert { expected == asset.to_s.strip }
   end
 end
