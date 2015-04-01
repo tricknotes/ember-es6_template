@@ -28,7 +28,6 @@ module Ember
         env.register_engine '.module.es6', ES6Module, mime_type: 'application/javascript'
         env.register_engine '.module.coffee', CoffeeScriptModule, mime_type: 'application/javascript'
         env.register_engine '.coffee', CoffeeScript, mime_type: 'application/javascript' # Force parse as ES6
-
       end
     else
       raise "Unsupported sprockets version: #{Sprockets::VERSION}"

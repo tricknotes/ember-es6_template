@@ -7,15 +7,7 @@ module Ember
         filename = scope.pathname.to_s
 
         if es6_module?(filename)
-          result = Babel::Transpiler.transform(
-            ::CoffeeScript.compile(data, bare: true),
-            'modules' => 'amd',
-            'moduleIds' => true,
-            'sourceRoot' => env.root,
-            'moduleRoot' => '',
-            'filename' => scope.logical_path,
-            'blacklist' => ['es6.modules'] # Next precessor transpile module syntax
-          )
+          ::CoffeeScript.compile(data, bare: true)
         elsif es6?(filename)
           result = Babel::Transpiler.transform(
             ::CoffeeScript.compile(data, bare: true),
@@ -23,11 +15,11 @@ module Ember
             'moduleRoot' => '',
             'filename' => scope.logical_path
           )
-        else
-          return super
-        end
 
-        result['code']
+          result['code']
+        else
+          super
+        end
       end
 
       private
