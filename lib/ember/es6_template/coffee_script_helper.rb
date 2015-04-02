@@ -4,7 +4,7 @@ module Ember
       def call(input)
         data = input[:data]
 
-        result = input[:cache].fetch(cache_key + [data]) do
+        result = input[:cache].fetch(_cache_key + [data]) do
           transform(
             Sprockets::Autoload::CoffeeScript.compile(data, bare: true),
             input
@@ -16,7 +16,7 @@ module Ember
 
       private
 
-      def cache_key
+      def _cache_key
         [
           self.class.name,
           VERSION,

@@ -12,7 +12,7 @@ module Ember
       def call(input)
         data = input[:data]
 
-        result = input[:cache].fetch(cache_key + [data]) do
+        result = input[:cache].fetch(_cache_key + [data]) do
           transform(data, input)
         end
 
@@ -31,7 +31,7 @@ module Ember
         )
       end
 
-      def cache_key
+      def _cache_key
         [
           self.class.name,
           VERSION,
