@@ -12,7 +12,13 @@ module Ember
       def call(input)
         data = input[:data]
 
-        result = input[:cache].fetch(_cache_key + [data]) do
+        dependencies = [
+          input[:load_path],
+          input[:filename],
+          data
+        ]
+
+        result = input[:cache].fetch(_cache_key + dependencies) do
           transform(data, input)
         end
 
