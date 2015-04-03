@@ -61,7 +61,8 @@ define("env", ["exports", "module"], function (exports, module) {
     asset = @env['boot.js']
     assert { 'application/javascript' == asset.content_type }
 
-    expected = <<-JS.strip
+    expected = if Babel::Source::VERSION =~ /^4\./
+      <<-JS.strip
 "use strict";
 
 var _interopRequire = function _interopRequire(obj) {
@@ -71,7 +72,22 @@ var _interopRequire = function _interopRequire(obj) {
 var App = _interopRequire(require("application"));
 
 App.create();
-    JS
+      JS
+    else
+      <<-JS.strip
+'use strict';
+
+var _interopRequire = function _interopRequire(obj) {
+  return obj && obj.__esModule ? obj['default'] : obj;
+};
+
+var _App = require('application');
+
+var App = _interopRequire(_App);
+
+App.create();
+      JS
+    end
 
     assert { expected == asset.to_s.strip }
   end
