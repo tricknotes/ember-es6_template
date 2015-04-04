@@ -25,6 +25,23 @@ class TestEmberES6Template < Minitest::Test
     assert { expected == asset.to_s.strip }
   end
 
+  def test_transpile_import
+    asset = @env['import.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+var _Hi = require('hi');
+
+var _Hi2 = _interopRequireWildcard(_Hi);
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
+
   def test_tranpile_module_syntax
     asset = @env['controller.js']
     assert { 'application/javascript' == asset.content_type }
@@ -63,24 +80,12 @@ define("env", ["exports", "module"], function (exports, module) {
 
     expected = if Babel::Source::VERSION =~ /^4\./
       <<-JS.strip
-"use strict";
-
-var _interopRequire = function _interopRequire(obj) {
-  return obj && obj.__esModule ? obj["default"] : obj;
-};
-
 var App = _interopRequire(require("application"));
 
 App.create();
       JS
     else
       <<-JS.strip
-'use strict';
-
-var _interopRequireWildcard = function _interopRequireWildcard(obj) {
-  return obj && obj.__esModule ? obj : { 'default': obj };
-};
-
 var _App = require('application');
 
 var _App2 = _interopRequireWildcard(_App);
@@ -89,7 +94,7 @@ _App2['default'].create();
       JS
     end
 
-    assert { expected == asset.to_s.strip }
+    assert { Regexp.compile(Regexp.escape(expected)) =~ asset.to_s.strip }
   end
 
   def test_transpile_module_syntax_with_coffee_script
