@@ -25,6 +25,23 @@ class TestEmberES6Template < Minitest::Test
     assert { expected == asset.to_s.strip }
   end
 
+  def test_transpile_import
+    asset = @env['import.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+var _Hi = require('hi');
+
+var _Hi2 = _interopRequireWildcard(_Hi);
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
+
   def test_tranpile_module_syntax
     asset = @env['controller.js']
     assert { 'application/javascript' == asset.content_type }
