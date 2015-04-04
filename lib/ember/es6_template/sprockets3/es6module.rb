@@ -28,12 +28,21 @@ module Ember
       private
 
       def transform(data, input)
+        actual_name = input[:name]
+        if input[:filename][File.expand_path(input[:name] + '/index', input[:load_path])]
+          if actual_name == '.'
+            actual_name = 'index'
+          else
+            actual_name += '/index'
+          end
+        end
+
         Babel::Transpiler.transform(data,
           'modules' => 'amd',
           'moduleIds' => true,
           'sourceRoot' => input[:load_path],
           'moduleRoot' => '',
-          'filename' => input[:name]
+          'filename' => actual_name(input)
         )
       end
 
@@ -44,6 +53,20 @@ module Ember
           Babel::Transpiler.version,
           Babel::Transpiler.source_version
         ]
+      end
+
+      def actual_name(input)
+        actual_name = input[:name]
+
+        if input[:filename][File.expand_path(input[:name] + '/index', input[:load_path])]
+          if actual_name == '.'
+            actual_name = 'index'
+          else
+            actual_name += '/index'
+          end
+        end
+
+        actual_name
       end
     end
   end

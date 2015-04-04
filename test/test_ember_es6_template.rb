@@ -112,4 +112,34 @@ define("route", ["exports", "module"], function (exports, module) {
 
     assert { expected == asset.to_s.strip }
   end
+
+  def test_transpile_index_file
+    asset = @env['index.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+define("index", ["exports", "module"], function (exports, module) {
+  "use strict";
+
+  module.exports = IndexRoute;
+});
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
+
+  def test_transpile_index_file_with_directory
+    asset = @env['controllers/index.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+define("controllers/index", ["exports", "module"], function (exports, module) {
+  "use strict";
+
+  module.exports = Controller;
+});
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
 end
