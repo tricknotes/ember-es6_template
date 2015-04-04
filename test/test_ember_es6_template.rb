@@ -77,15 +77,15 @@ App.create();
       <<-JS.strip
 'use strict';
 
-var _interopRequire = function _interopRequire(obj) {
-  return obj && obj.__esModule ? obj['default'] : obj;
+var _interopRequireWildcard = function _interopRequireWildcard(obj) {
+  return obj && obj.__esModule ? obj : { 'default': obj };
 };
 
 var _App = require('application');
 
-var App = _interopRequire(_App);
+var _App2 = _interopRequireWildcard(_App);
 
-App.create();
+_App2['default'].create();
       JS
     end
 
