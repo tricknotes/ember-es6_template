@@ -1,5 +1,3 @@
-require 'coffee_script'
-
 module Ember
   module ES6Template
     class ES6 < ::Tilt::Template
