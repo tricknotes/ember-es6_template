@@ -15,10 +15,16 @@ module Ember
           'moduleIds' => true,
           'sourceRoot' => env.root,
           'moduleRoot' => '',
-          'filename' => scope.logical_path
+          'filename' => module_name(scope.logical_path)
         )
 
         result['code']
+      end
+
+      private
+
+      def module_name(path)
+        [Ember::ES6Template.config.module_prefix, path].compact.join('/')
       end
     end
   end

@@ -13,5 +13,15 @@ module Ember
     else
       raise "Unsupported sprockets version: #{Sprockets::VERSION}"
     end
+
+    autoload :Config, 'ember/es6_template/config'
+
+    def self.configure
+      yield config if block_given?
+    end
+
+    def self.config
+      @config ||= Config.new
+    end
   end
 end

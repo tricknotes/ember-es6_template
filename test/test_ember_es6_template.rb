@@ -142,4 +142,35 @@ define("controllers/index", ["exports", "module"], function (exports, module) {
 
     assert { expected == asset.to_s.strip }
   end
+
+  def test_configure_module_prefix
+    with_module_prefix('ping') do
+      asset = @env['controller.js']
+      assert { 'application/javascript' == asset.content_type }
+
+      expected = <<-JS.strip
+define("ping/controller", ["exports", "module"], function (exports, module) {
+  "use strict";
+
+  module.exports = Ember.Controller.extend({});
+});
+      JS
+
+      assert { expected == asset.to_s.strip }
+    end
+  end
+
+  private
+
+  def with_module_prefix(prefix)
+    Ember::ES6Template.configure do |config|
+      prefix, config.module_prefix = config.module_prefix, prefix
+    end
+
+    yield
+  ensure
+    Ember::ES6Template.configure do |config|
+      config.module_prefix = prefix
+    end
+  end
 end

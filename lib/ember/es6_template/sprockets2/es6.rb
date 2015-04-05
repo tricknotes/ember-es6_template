@@ -18,7 +18,7 @@ module Ember
           'filename' => scope.logical_path
         )
 
-        return result['code']
+        result['code']
       end
 
       private

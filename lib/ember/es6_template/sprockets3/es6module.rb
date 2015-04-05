@@ -2,11 +2,15 @@ module Ember
   module ES6Template
     class ES6Module
       def self.instance
-        @instance ||= new
+        @instance ||= new(Ember::ES6Template.config)
       end
 
       def self.call(input)
         instance.call(input)
+      end
+
+      def initialize(config = Config.new)
+        @config = config
       end
 
       def call(input)
@@ -28,21 +32,12 @@ module Ember
       private
 
       def transform(data, input)
-        actual_name = input[:name]
-        if input[:filename][File.expand_path(input[:name] + '/index', input[:load_path])]
-          if actual_name == '.'
-            actual_name = 'index'
-          else
-            actual_name += '/index'
-          end
-        end
-
         Babel::Transpiler.transform(data,
           'modules' => 'amd',
           'moduleIds' => true,
           'sourceRoot' => input[:load_path],
           'moduleRoot' => '',
-          'filename' => actual_name(input)
+          'filename' => module_name(input)
         )
       end
 
@@ -51,22 +46,23 @@ module Ember
           self.class.name,
           VERSION,
           Babel::Transpiler.version,
-          Babel::Transpiler.source_version
+          Babel::Transpiler.source_version,
+          @config.to_hash
         ]
       end
 
-      def actual_name(input)
-        actual_name = input[:name]
+      def module_name(input)
+        module_name = input[:name]
 
         if input[:filename][File.expand_path(input[:name] + '/index', input[:load_path])]
-          if actual_name == '.'
-            actual_name = 'index'
+          if module_name == '.'
+            module_name = 'index'
           else
-            actual_name += '/index'
+            module_name += '/index'
           end
         end
 
-        actual_name
+        [@config.module_prefix, module_name].compact.join('/')
       end
     end
   end
