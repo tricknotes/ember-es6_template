@@ -62,7 +62,11 @@ module Ember
           end
         end
 
-        [@config.module_prefix, module_name].compact.join('/')
+        paths = []
+        paths << @config.module_prefix if @config.prefix_pattern =~ module_name
+        paths << module_name
+
+        paths.compact.join('/')
       end
     end
   end

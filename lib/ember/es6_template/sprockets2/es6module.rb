@@ -24,7 +24,15 @@ module Ember
       private
 
       def module_name(path)
-        [Ember::ES6Template.config.module_prefix, path].compact.join('/')
+        paths = []
+        paths << config.module_prefix if config.prefix_pattern =~ path
+        paths << path
+
+        paths.compact.join('/')
+      end
+
+      def config
+        Ember::ES6Template.config
       end
     end
   end

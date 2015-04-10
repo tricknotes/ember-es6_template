@@ -160,17 +160,66 @@ define("ping/controller", ["exports", "module"], function (exports, module) {
     end
   end
 
+  def test_configure_prefix_files
+    with_module_prefix_with_prefix_files_and_dirs('hi', 'controller', nil) do
+      asset = @env['controller.js']
+      assert { %r{define\("hi/controller"} =~ asset.to_s.strip }
+
+      asset = @env['controllers/index.js']
+      assert { %r{define\("controllers/index"} =~ asset.to_s.strip }
+    end
+  end
+
+  def test_configure_prefix_dirs
+    with_module_prefix_with_prefix_files_and_dirs('hi', nil, 'controllers') do
+      asset = @env['controllers/index.js']
+      assert { %r{define\("hi/controllers/index"} =~ asset.to_s.strip }
+
+      asset = @env['controller.js']
+      assert { %r{define\("controller"} =~ asset.to_s.strip }
+    end
+  end
+
+  def test_configure_prefix_files_and_dirs
+    with_module_prefix_with_prefix_files_and_dirs('hi', 'index', 'controllers') do
+      asset = @env['controllers/index.js']
+      assert { %r{define\("hi/controllers/index"} =~ asset.to_s.strip }
+
+      asset = @env['controllers/welcome.js']
+      assert { %r{define\("hi/controllers/welcome"} =~ asset.to_s.strip }
+
+      asset = @env['index.js']
+      assert { %r{define\("hi/index"} =~ asset.to_s.strip }
+
+      asset = @env['index.js']
+      assert { %r{define\("hi/index"} =~ asset.to_s.strip }
+
+      asset = @env['non-ember/boot.js']
+      assert { %r{define\("non-ember/boot"} =~ asset.to_s.strip }
+    end
+  end
+
   private
 
   def with_module_prefix(prefix)
+    with_module_prefix_with_prefix_files_and_dirs(prefix, nil, nil) do
+      yield
+    end
+  end
+
+  def with_module_prefix_with_prefix_files_and_dirs(prefix, files, dirs)
     Ember::ES6Template.configure do |config|
       prefix, config.module_prefix = config.module_prefix, prefix
+      files, config.prefix_files = config.prefix_files, files
+      dirs, config.prefix_dirs = config.prefix_dirs, dirs
     end
 
     yield
   ensure
     Ember::ES6Template.configure do |config|
-      config.module_prefix = prefix
+      prefix, config.module_prefix = config.module_prefix, prefix
+      files, config.prefix_files = config.prefix_files, files
+      dirs, config.prefix_dirs = config.prefix_dirs, dirs
     end
   end
 end
