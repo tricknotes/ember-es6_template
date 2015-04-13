@@ -32,11 +32,9 @@ class TestEmberES6Template < Minitest::Test
     expected = <<-JS.strip
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 var _Hi = require('hi');
 
-var _Hi2 = _interopRequireWildcard(_Hi);
+_Hi['default'].create();
     JS
 
     assert { expected == asset.to_s.strip }
@@ -47,10 +45,10 @@ var _Hi2 = _interopRequireWildcard(_Hi);
     assert { 'application/javascript' == asset.content_type }
 
     expected = <<-JS.strip
-define("controller", ["exports", "module"], function (exports, module) {
+define("controller", ["exports"], function (exports) {
   "use strict";
 
-  module.exports = Ember.Controller.extend({});
+  exports["default"] = Ember.Controller.extend({});
 });
     JS
 
@@ -62,10 +60,10 @@ define("controller", ["exports", "module"], function (exports, module) {
     assert { 'application/javascript' == asset.content_type }
 
     expected = <<-JS.strip
-define("env", ["exports", "module"], function (exports, module) {
+define("env", ["exports"], function (exports) {
   "use strict";
 
-  module.exports = {
+  exports["default"] = {
     key: "1024"
   };
 });
@@ -88,9 +86,7 @@ App.create();
       <<-JS.strip
 var _App = require('application');
 
-var _App2 = _interopRequireWildcard(_App);
-
-_App2['default'].create();
+_App['default'].create();
       JS
     end
 
@@ -102,10 +98,10 @@ _App2['default'].create();
     assert { 'application/javascript' == asset.content_type }
 
     expected = <<-JS.strip
-define("route", ["exports", "module"], function (exports, module) {
+define("route", ["exports"], function (exports) {
   "use strict";
 
-  module.exports = Route;
+  exports["default"] = Route;
   ;
 });
     JS
@@ -118,10 +114,10 @@ define("route", ["exports", "module"], function (exports, module) {
     assert { 'application/javascript' == asset.content_type }
 
     expected = <<-JS.strip
-define("index", ["exports", "module"], function (exports, module) {
+define("index", ["exports"], function (exports) {
   "use strict";
 
-  module.exports = IndexRoute;
+  exports["default"] = IndexRoute;
 });
     JS
 
@@ -133,10 +129,10 @@ define("index", ["exports", "module"], function (exports, module) {
     assert { 'application/javascript' == asset.content_type }
 
     expected = <<-JS.strip
-define("controllers/index", ["exports", "module"], function (exports, module) {
+define("controllers/index", ["exports"], function (exports) {
   "use strict";
 
-  module.exports = Controller;
+  exports["default"] = Controller;
 });
     JS
 
@@ -149,10 +145,10 @@ define("controllers/index", ["exports", "module"], function (exports, module) {
       assert { 'application/javascript' == asset.content_type }
 
       expected = <<-JS.strip
-define("ping/controller", ["exports", "module"], function (exports, module) {
+define("ping/controller", ["exports"], function (exports) {
   "use strict";
 
-  module.exports = Ember.Controller.extend({});
+  exports["default"] = Ember.Controller.extend({});
 });
       JS
 

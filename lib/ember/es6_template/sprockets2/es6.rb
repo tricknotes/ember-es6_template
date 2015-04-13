@@ -13,6 +13,7 @@ module Ember
         return data if module?(scope.pathname.to_s)
 
         result = Babel::Transpiler.transform(data,
+          'modules' => 'commonStrict',
           'sourceRoot' => env.root,
           'moduleRoot' => '',
           'filename' => scope.logical_path
