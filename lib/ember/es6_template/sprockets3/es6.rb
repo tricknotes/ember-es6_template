@@ -29,6 +29,7 @@ module Ember
 
       def transform(data, input)
         Babel::Transpiler.transform(data,
+          'modules' => 'commonStrict',
           'sourceRoot' => input[:load_path],
           'moduleRoot' => '',
           'filename' => input[:filename]

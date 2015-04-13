@@ -11,7 +11,7 @@ module Ember
         env = scope.environment
 
         result = Babel::Transpiler.transform(data,
-          'modules' => 'amd',
+          'modules' => 'amdStrict',
           'moduleIds' => true,
           'sourceRoot' => env.root,
           'moduleRoot' => '',

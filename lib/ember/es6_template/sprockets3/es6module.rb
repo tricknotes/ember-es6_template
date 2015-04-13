@@ -33,7 +33,7 @@ module Ember
 
       def transform(data, input)
         Babel::Transpiler.transform(data,
-          'modules' => 'amd',
+          'modules' => 'amdStrict',
           'moduleIds' => true,
           'sourceRoot' => input[:load_path],
           'moduleRoot' => '',
