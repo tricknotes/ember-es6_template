@@ -32,9 +32,9 @@ class TestEmberES6Template < Minitest::Test
     expected = <<-JS.strip
 'use strict';
 
-var _Hi = require('hi');
+var _hi = require('hi');
 
-_Hi['default'].create();
+_hi['default'].create();
     JS
 
     assert { expected == asset.to_s.strip }
@@ -84,9 +84,9 @@ App.create();
       JS
     else
       <<-JS.strip
-var _App = require('application');
+var _application = require('application');
 
-_App['default'].create();
+_application['default'].create();
       JS
     end
 
