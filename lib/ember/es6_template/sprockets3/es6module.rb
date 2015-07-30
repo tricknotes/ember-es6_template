@@ -36,7 +36,7 @@ module Ember
           'modules' => 'amdStrict',
           'moduleIds' => true,
           'sourceRoot' => input[:load_path],
-          'moduleRoot' => '',
+          'moduleRoot' => nil,
           'filename' => module_name(input)
         )
       end
