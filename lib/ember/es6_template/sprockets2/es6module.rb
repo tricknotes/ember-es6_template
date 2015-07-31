@@ -14,7 +14,7 @@ module Ember
           'modules' => 'amdStrict',
           'moduleIds' => true,
           'sourceRoot' => env.root,
-          'moduleRoot' => '',
+          'moduleRoot' => nil,
           'filename' => module_name(scope.logical_path)
         )
 
