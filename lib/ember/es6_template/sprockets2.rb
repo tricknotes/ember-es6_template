@@ -1,7 +1,7 @@
 begin
   require 'coffee_script'
 rescue LoadError => e
-  raise e unless e.message == 'cannot load such file -- coffee_script'
+  raise e unless ['cannot load such file -- coffee_script', 'no such file to load -- coffee_script'].include?(e.message)
 end
 
 module Ember
