@@ -139,6 +139,34 @@ define("controllers/index", ["exports"], function (exports) {
     assert { expected == asset.to_s.strip }
   end
 
+  def test_transpile_es6_with_directive
+    asset = @env['es6-with-directive.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+'This is some JS library.';
+define("es6-with-directive", ["exports"], function (exports) {
+  "use strict";
+});
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
+
+  def test_transpile_coffee_with_directive
+    asset = @env['coffee-with-directive.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+'This is some JS library.';
+define("coffee-with-directive", ["exports"], function (exports) {
+  "use strict";
+});
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
+
   def test_configure_module_prefix
     with_module_prefix('ping') do
       asset = @env['controller.js']
