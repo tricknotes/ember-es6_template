@@ -8,7 +8,7 @@ module Ember
     case Sprockets::VERSION
     when /^2\./
       require 'ember/es6_template/sprockets2'
-    when /^3\./
+    when /^[34]\./
       require 'ember/es6_template/sprockets3'
     else
       raise "Unsupported sprockets version: #{Sprockets::VERSION}"
