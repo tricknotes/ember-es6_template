@@ -1,10 +1,10 @@
 module Ember
   module ES6Template
-    autoload :ES6, 'ember/es6_template/sprockets3/es6'
-    autoload :ES6Module, 'ember/es6_template/sprockets3/es6module'
-    autoload :CoffeeScript, 'ember/es6_template/sprockets3/coffee_script'
-    autoload :CoffeeScriptModule, 'ember/es6_template/sprockets3/coffee_script_module'
-    autoload :CoffeeScriptHelper, 'ember/es6_template/sprockets3/coffee_script_helper'
+    autoload :ES6, 'ember/es6_template/sprockets/es6'
+    autoload :ES6Module, 'ember/es6_template/sprockets/es6module'
+    autoload :CoffeeScript, 'ember/es6_template/sprockets/coffee_script'
+    autoload :CoffeeScriptModule, 'ember/es6_template/sprockets/coffee_script_module'
+    autoload :CoffeeScriptHelper, 'ember/es6_template/sprockets/coffee_script_helper'
 
     def self.setup(env)
       env.register_mime_type 'application/ecmascript-6', extensions: %w(.es6)

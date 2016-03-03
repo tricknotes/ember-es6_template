@@ -6,9 +6,9 @@ end
 
 module Ember
   module ES6Template
-    autoload :ES6, 'ember/es6_template/sprockets2/es6'
-    autoload :ES6Module, 'ember/es6_template/sprockets2/es6module'
-    autoload :CoffeeScript, 'ember/es6_template/sprockets2/coffee_script'
+    autoload :ES6, 'ember/es6_template/sprockets-legacy/es6'
+    autoload :ES6Module, 'ember/es6_template/sprockets-legacy/es6module'
+    autoload :CoffeeScript, 'ember/es6_template/sprockets-legacy/coffee_script'
 
     def self.setup(env)
       env.register_engine '.es6', ES6
