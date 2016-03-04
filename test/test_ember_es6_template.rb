@@ -109,6 +109,20 @@ define("route", ["exports"], function (exports) {
     assert { expected == asset.to_s.strip }
   end
 
+  def test_transpile_coffee_script
+    asset = @env['non-ember/just-coffee.js']
+    assert { 'application/javascript' == asset.content_type }
+
+    expected = <<-JS.strip
+(function() {
+  "Hi, " + name;
+
+}).call(this);
+    JS
+
+    assert { expected == asset.to_s.strip }
+  end
+
   def test_transpile_index_file
     asset = @env['index.js']
     assert { 'application/javascript' == asset.content_type }
