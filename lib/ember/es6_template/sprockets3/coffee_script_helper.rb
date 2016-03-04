@@ -5,10 +5,16 @@ module Ember
         data = input[:data]
 
         result = input[:cache].fetch(_cache_key + [data]) do
-          transform(
-            Sprockets::Autoload::CoffeeScript.compile(data, bare: true),
-            input
-          )
+          if es6?(input[:filename])
+            transform(
+              Sprockets::Autoload::CoffeeScript.compile(data, bare: true),
+              input
+            )
+          else
+            code = Sprockets::Autoload::CoffeeScript.compile(data, bare: false)
+
+            {'code' => code}
+          end
         end
 
         result['code']
@@ -24,6 +30,10 @@ module Ember
           Babel::Transpiler.source_version,
           Sprockets::Autoload::CoffeeScript.version
         ]
+      end
+
+      def es6?(filename)
+        File.basename(filename) =~ /\.(?:es6|module)\./
       end
     end
   end
