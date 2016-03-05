@@ -25,7 +25,7 @@ module Ember
       private
 
       def module?(filename)
-        filename =~ /\.module\.es6/
+        File.basename(filename) =~ /\.module\.es6/
       end
     end
   end
