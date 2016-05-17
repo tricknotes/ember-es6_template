@@ -1,4 +1,5 @@
 require 'ember/es6_template/version'
+require 'ember/es6_template/config'
 
 require 'sprockets'
 require 'babel/transpiler'
@@ -13,8 +14,6 @@ module Ember
     else
       raise "Unsupported sprockets version: #{Sprockets::VERSION}"
     end
-
-    autoload :Config, 'ember/es6_template/config'
 
     def self.configure
       yield config if block_given?
