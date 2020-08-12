@@ -3,9 +3,10 @@ module Ember
     module CoffeeScriptHelper
       def call(input)
         data = input[:data]
+        filename = input[:filename]
 
-        result = input[:cache].fetch(_cache_key + [data]) do
-          if es6?(input[:filename])
+        result = input[:cache].fetch(_cache_key + [filename, data]) do
+          if es6?(filename)
             transform(
               Sprockets::Autoload::CoffeeScript.compile(data, bare: true),
               input
